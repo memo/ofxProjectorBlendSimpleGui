@@ -18,9 +18,9 @@ class ofxProjectorBlendSimpleGui {
 
 public:
     int numProjectors = 2;
-    int projectorWidth = 1920;
-    int projectorHeight = 1080;
-    int pixelOverlap = 0;
+    int projectorWidth = 1280;
+    int projectorHeight = 720;
+    int pixelOverlap = 100;
 
     // wrap ofxProjectorBlend common
     void begin() { blender.begin(); }
