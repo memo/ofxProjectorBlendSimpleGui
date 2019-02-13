@@ -1,6 +1,6 @@
 meta:
 	ADDON_NAME = ofxProjectorBlendSimpleGui
-	ADDON_DESCRIPTION = "Manages a ofxSimpleGuiToo for ofxProjectorBlend"
+        ADDON_DESCRIPTION = "Manages a ofxSimpleGuiToo for ofxProjectorBlend (requires my fork)"
 	ADDON_AUTHOR = Memo Akten, www.memo.tv
 	ADDON_TAGS = ""
 	ADDON_URL = https://github.com/memo/ofxProjectorBlendSimpleGui
