@@ -21,10 +21,37 @@ public:
     int projectorWidth = 1280;
     int projectorHeight = 720;
     int pixelOverlap = 100;
+    bool doDrawGrid = false;
+    bool doDrawGridInvert = false;
 
     // wrap ofxProjectorBlend common
     void begin() { blender.begin(); }
-    void end() { blender.end(); }
+    void end() { 
+        if (blender.enabled && doDrawGrid) {
+            ofPushStyle();
+            float col = doDrawGridInvert ? 0 : 255;
+            ofClear(255 - col);
+            ofEnableAlphaBlending();
+            int gridSize = 20;
+            for (int i = 0; i < blender.getCanvasWidth()/gridSize; i ++) {
+                bool major = i % 5 == 0;
+                ofSetColor(col, major ? 255 : 128);
+                int c = i * gridSize;
+                for (int x=c-major; x<=c+ major; x++) // diy line thickness
+                    ofDrawLine(x, 0, x, blender.getCanvasHeight());
+            }
+            for (int i = 0; i < blender.getCanvasHeight()/gridSize; i++) {
+                bool major = i % 5 == 0;
+                ofSetColor(col, major ? 255 : 128);
+                int c = i * gridSize;
+                for (int y = c - major; y <= c + major; y++) // diy line thickness
+                    ofDrawLine(0, y, blender.getCanvasWidth(), y);
+            }
+            ofPopStyle();
+        }
+        blender.end();
+    }
+
     void draw() { blender.draw(); }
     int getDisplayWidth() const { return blender.getDisplayWidth(); }
     int getDisplayHeight() const { return blender.getDisplayHeight(); }
@@ -40,36 +67,36 @@ public:
         blenderGuiPage = &gui.addPage("PROJECTOR BLEND").setXMLName(xmlPath);
 
         // NOTE: having to setup gui twice
-        // FIRST to load the number of projectors
+        // FIRST to load the number of projectors and width/height etc.
+        numProjectors = 0;
         setupGui();
-        gui.loadFromXML();
 
-        // AGAIN to reconstruct the gui with correct number of projectors
-        blenderGuiPage->clear(); // clear page first
+        // now setup the blender properly, and setup GUI again all projector params
+        blender.setup(projectorWidth, projectorHeight, numProjectors, pixelOverlap);
         setupGui();
-        gui.loadFromXML();
-
     }
 
     void setupGui() {
         ofLogNotice("ofxProjectorBlendSimpleGui") << __func__;
         blenderGuiPage->clear(); // clear page first
         blenderGuiPage->addToggle("enabled", blender.enabled);
-        blenderGuiPage->addToggle("Show Blend", blender.showBlend);
+        blenderGuiPage->addToggle("showBlend", blender.showBlend);
+        blenderGuiPage->addToggle("doDrawGrid", doDrawGrid);
+        blenderGuiPage->addToggle("doDrawGridInvert", doDrawGridInvert);
         blenderGuiPage->addTitle("Init");
         blenderGuiPage->addSlider("numProjectors", numProjectors, 2, 10);
         blenderGuiPage->addSlider("projectorWidth", projectorWidth, 0, 1920);
         blenderGuiPage->addSlider("projectorHeight", projectorHeight, 0, 1080);
         blenderGuiPage->addSlider("pixelOverlap", pixelOverlap, 0, 1000);
 
-        for (int i=0; i<numProjectors-1; i++)
-        {
+        for (int i=0; i<numProjectors-1; i++) { // loop to n-1 because we're only interested in crossovers
             string si = ofToString(i+1);
             blenderGuiPage->addTitle("Blend " + si);
             blenderGuiPage->addSlider("Blend Power "+si, blender.blendPower[i], 0.0, 4.0);
             blenderGuiPage->addSlider("Gamma "+si, blender.gamma[i], 0.1, 4.0);
             blenderGuiPage->addSlider("Luminance "+si, blender.luminance[i], 0.0, 1.0);
         }
+        gui.loadFromXML();
     }
 
 
