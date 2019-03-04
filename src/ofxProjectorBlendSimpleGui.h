@@ -86,7 +86,7 @@ public:
         blenderGuiPage->addTitle("Init");
         blenderGuiPage->addSlider("numProjectors", numProjectors, 2, 10);
         blenderGuiPage->addSlider("projectorWidth", projectorWidth, 0, 1920);
-        blenderGuiPage->addSlider("projectorHeight", projectorHeight, 0, 1080);
+        blenderGuiPage->addSlider("projectorHeight", projectorHeight, 0, 1200);
         blenderGuiPage->addSlider("pixelOverlap", pixelOverlap, 0, 1000);
 
         for (int i=0; i<numProjectors-1; i++) { // loop to n-1 because we're only interested in crossovers
