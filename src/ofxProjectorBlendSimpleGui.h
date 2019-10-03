@@ -47,7 +47,29 @@ public:
                 for (int y = c - major; y <= c + major; y++) // diy line thickness
                     ofDrawLine(0, y, blender.getCanvasWidth(), y);
             }
+			ofSetLineWidth(2);
+			ofSetColor(col, 255);
+			for (int i = -1;  i <= 1; i++) {
+				ofDrawLine(0, i, blender.getCanvasWidth(), blender.getCanvasHeight()+i);
+				ofDrawLine(0, blender.getCanvasHeight()+i, blender.getCanvasWidth(), i);
+			}
+
+			ofPushMatrix();
+			ofNoFill();
+			ofSetCircleResolution(64);
+			ofSetLineWidth(2);
+			vector<int> colors = { 0xFF0000, 0x00FF00, 0x0000FF };
+			for (int i = 0; i < blender.getNumProjectors(); i++) {
+				ofSetHexColor(colors[i%colors.size()]);
+				ofDrawLine(0, 0, blender.getProjectorWidth(), blender.getProjectorHeight());
+				ofDrawLine(0, blender.getProjectorHeight(), blender.getProjectorWidth(), 0);
+				ofDrawCircle(blender.getProjectorWidth() / 2, blender.getProjectorHeight() / 2, blender.getProjectorHeight()*0.3);
+				ofTranslate(blender.getProjectorWidth(), 0);
+				ofDrawRectangle(0, 0, blender.getProjectorWidth(), blender.getProjectorHeight());
+			}
+			ofPopMatrix();
             ofPopStyle();
+
         }
         blender.end();
     }
@@ -81,6 +103,7 @@ public:
         blenderGuiPage->clear(); // clear page first
         blenderGuiPage->addToggle("enabled", blender.enabled);
         blenderGuiPage->addToggle("showBlend", blender.showBlend);
+		blenderGuiPage->addToggle("doBlend", blender.doBlend);	
         blenderGuiPage->addToggle("doDrawGrid", doDrawGrid);
         blenderGuiPage->addToggle("doDrawGridInvert", doDrawGridInvert);
         blenderGuiPage->addTitle("Init");
