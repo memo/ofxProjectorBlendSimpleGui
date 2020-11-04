@@ -3,10 +3,22 @@
         <name>enabled</name>
         <value>1</value>
     </Toggle_enabled>
-    <Toggle_Show_Blend>
-        <name>Show Blend</name>
+    <Toggle_showBlend>
+        <name>showBlend</name>
         <value>1</value>
-    </Toggle_Show_Blend>
+    </Toggle_showBlend>
+    <Toggle_doBlend>
+        <name>doBlend</name>
+        <value>1</value>
+    </Toggle_doBlend>
+    <Toggle_doDrawGrid>
+        <name>doDrawGrid</name>
+        <value>0</value>
+    </Toggle_doDrawGrid>
+    <Toggle_doDrawGridInvert>
+        <name>doDrawGridInvert</name>
+        <value>0</value>
+    </Toggle_doDrawGridInvert>
     <SliderInt_numProjectors>
         <name>numProjectors</name>
         <value>3</value>
